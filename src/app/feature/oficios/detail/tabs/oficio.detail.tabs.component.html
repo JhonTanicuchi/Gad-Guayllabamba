@@ -1,0 +1,12 @@
+<div class="flex w-full items-center justify-end">
+  <div class="tabs tabs-boxed bg-white">
+    <a class="tab" [class.tab-active]="status === 'pendiente'"
+      *permissions="['LEER_ROLES']">Pendiente</a>
+    <a class="tab" [class.tab-active]="status === 'en proceso'"
+      *permissions="['LEER_ROLES']">En proceso</a>
+    <a class="tab" [class.tab-active]="status === 'cancelado'"
+      *permissions="['LEER_ROLES']">Cancelado</a>
+    <a class="tab" [class.tab-active]="status === 'aprobado'"
+      *permissions="['LEER_ROLES']">Aprobado</a>
+  </div>
+</div>

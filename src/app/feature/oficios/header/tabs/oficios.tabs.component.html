@@ -1,0 +1,55 @@
+<div class="tabs flex w-full justify-between items-end flex-row-reverse">
+  <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/archived"
+    class="tab tab-lifted !-mr-0 archived" *permissions="[
+      'LEER_ROLES'
+    ]">
+    <span class="fa-regular fa-trash-can text-sm leading-none mr-2"></span>
+    Archivados
+  </a>
+  <div></div>
+
+  <div class="flex items-end">
+    <a [routerLinkActive]="['tab-active']" [routerLinkActiveOptions]="{ exact: true }" routerLink="/system/oficios/list"
+      class="tab tab-lifted" *permissions="[
+                    'LEER_ROLES',
+                  ]">
+      Todos
+    </a>
+    <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/filter/creados" class="tab tab-lifted"
+      *permissions="[
+                'LEER_ROLES',
+              ]">
+      Creados
+    </a>
+    <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/filter/recibidos" class="tab tab-lifted"
+      *permissions="[
+        'LEER_USUARIOS'
+      ]">
+      Recibidos
+    </a>
+    <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/filter/pendientes" class="tab tab-lifted"
+      *permissions="[
+            'LEER_ROLES'
+          ]">
+      Pendientes
+    </a>
+    <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/filter/en-proceso" class="tab tab-lifted"
+      *permissions="[
+                'LEER_ROLES'
+              ]">
+      En proceso
+    </a>
+    <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/filter/cancelados" class="tab tab-lifted"
+      *permissions="[
+            'LEER_ROLES'
+          ]">
+      Cancelados
+    </a>
+    <a [routerLinkActive]="['tab-active']" routerLink="/system/oficios/list/filter/aprobados" class="tab tab-lifted"
+      *permissions="[
+                'LEER_ROLES'
+              ]">
+      Aprobados
+    </a>
+  </div>
+</div>

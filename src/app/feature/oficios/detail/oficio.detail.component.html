@@ -1,0 +1,297 @@
+<module-header title="Oficio #{{ currentOficio.id }}">
+  <oficios-breadcrumbs breadcrumbs>
+    <li><a>Oficio #{{ currentOficio.id }}</a></li>
+  </oficios-breadcrumbs>
+  <oficio-detail-tabs tabs status="{{currentOficio.status}}"></oficio-detail-tabs>
+  <!-- <div tabs class="h-8"></div> -->
+</module-header>
+
+<section class="relative">
+  <div
+    class="bg-neutral-content flex justify-center items-center  w-full h-full p-20 border-t-[1px] border-[#535a6650]">
+    <div style="background-image: url('/assets/images/formato.png');background-size: cover;" class=" a4-container bg-white text-black border border-gray-400 p-30 relative">
+
+      <div class="hoja flex justify-center items-center">
+        <div>
+          <!-- Título -->
+          <h2 class="text-xl font-bold text-center mb-4">{{currentOficio.subject}}</h2>
+
+          <!-- Fecha -->
+          <p class="!text-right font-bold !m-0">Of, Circular N.° 0112-GADPG-2023</p>
+
+          <p class="!text-right mb-4">Guayallabamba, {{currentOficio.created_at | customDate }}</p>
+
+          <p class="text-left !m-0">Señores/as</p>
+          <p class="text-left font-bold uppercase !m-0">Presidentes/as de los barrios</p>
+          <p class="text-left font-bold uppercase !m-0">Parroquia de Guayallabamba</p>
+
+          <p class="text-left mb-4">Presente.</p>
+
+          <h4 class="text-left">De mi consideración:</h4>
+
+          <!-- Desarrollo -->
+          <div class="text-center mb-8">
+            <p>{{currentOficio.description}}</p>
+          </div>
+
+          <h4 class="text-left pb-20 pt-10">Atentamente,</h4>
+
+          <!-- Sección de firmas -->
+          <div class="flex justify-between">
+            <div class="w-1/3">
+              <hr class="border border-gray-400 mb-1">
+              <p class="text-center">Firma del emisor</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="currentOficio.status != 'cancelado' && currentOficio.status != 'aprobado'" class="absolute left-0 -top-10">
+        <div class="relative">
+          <div class="flex justify-center items-center p-1 gap-1 bg-white rounded-md shadow-lg cursor-pointer">
+
+            <button *permissions="['CANCELAR_OFICIOS']" (click)="openDialogStatus('cancelado')" type="button" class="btn btn-xs bg-[#cce5ff] text-neutral hover:text-white text-xs capitalize rounded-md border-0">
+              Cancelar
+            </button>
+
+            <button *permissions="['APROBAR_OFICIOS']" (click)="openDialogStatus('aprobado')" type="button" class="btn btn-xs bg-[#42ab49] text-xs capitalize rounded-md border-0">
+              Aprobar
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="absolute -right-12 top-0">
+        <div class="relative">
+          <div class="h-30 w-10 bg-white rounded-md shadow-lg cursor-pointer">
+            <div *permissions="['COMENTAR_OFICIOS']" (click)="comentarios = true"
+              class="flex items-center justify-center h-10 hover:bg-[#1b4b2d30] hover:text-primary transition-all rounded-t-md">
+              <span class="fa-regular fa-message"></span>
+            </div>
+
+            <div *permissions="['COMPARTIR_OFICIOS']" (click)="compartir = true"
+              class="flex items-center justify-center h-10 hover:bg-[#1b4b2d30] hover:text-primary transition-all">
+              <span class="fa-regular fa-share-from-square"></span>
+            </div>
+
+            <div (click)="anexos = true"
+              class="flex items-center justify-center h-10 hover:bg-[#1b4b2d30] hover:text-primary transition-all rounded-b-md">
+              <span class="fa-regular fa-file"></span>
+            </div>
+          </div>
+
+          <div *ngIf="anexos"
+            class="w-60 absolute top-20 left-12 bg-white rounded-md shadow-lg p-2 flex flex-col space-y-0 divide-y-[1px]">
+            <div class="border-b pb-2 font-light flex items-center justify-between">
+              <h1>Anexos <span *ngIf="currentOficio.files">({{currentOficio.files.length}})</span></h1>
+              <div (click)="anexos = false"
+                class="h-5 w-5 flex justify-center items-center hover:bg-[#535a6620] rounded-sm cursor-pointer">
+                <span class="las la-times text-primary text-lg"></span>
+              </div>
+            </div>
+
+            <div *ngFor="let file of currentOficio.files"
+              class="bg-white hover:bg-[#1b4b2d20] bg-opacity-10 px-3 py-2 flex items-center justify-between">
+              <div class="flex items-center">
+                <i class="fa-solid fa-file-{{file.type}} mr-2"></i>
+                <div class="truncate w-40 text-xs !cursor-default">{{ file.name }}</div>
+              </div>
+              <span (click)="downloadFile(file.id,file.name)"
+                class="fa-solid fa-download cursor-pointer text-primary hover:text-[#0C9707] ml-2"></span>
+            </div>
+          </div>
+
+          <div *ngIf="compartir"
+            class="absolute w-60 top-10 left-12 bg-white rounded-md shadow-lg p-2 flex flex-col space-y-0">
+
+            <div class="border-b pb-2 mb-2 font-light flex items-center justify-between">
+              <h1>Compartir</h1>
+              <div *ngIf="compartir1" (click)="compartir = false"
+                class="h-5 w-5 flex justify-center items-center hover:bg-[#535a6620] rounded-sm cursor-pointer">
+                <span class="las la-times text-primary text-lg"></span>
+              </div>
+
+              <div *ngIf="compartir2" (click)="compartir1 = true" (click)="compartir2 = false"
+                class="h-5 w-5 flex justify-center items-center hover:bg-[#535a6620] rounded-sm cursor-pointer">
+                <span class="las la-arrow-left text-primary text-lg"></span>
+              </div>
+            </div>
+
+            <div *ngIf="compartir1">
+              <span class="text-xs opacity-50">Roles</span>
+
+              <div class="bg-white hover:bg-[#1b4b2d20] bg-opacity-10 px-3 py-2 flex items-center">
+                <div class="flex items-center">
+                  <input class="mr-2" type="checkbox" name="alls" id="0" [(ngModel)]="selectedRoles[0]"
+                    (change)="handleRoleSelectionChange(0)">
+                  <div class="truncate w-40 text-xs !cursor-default">Todos</div>
+                </div>
+              </div>
+
+              <div *ngFor="let role of roles"
+                class="bg-white hover:bg-[#1b4b2d20] bg-opacity-10 px-3 py-2 flex items-center justify-between">
+                <div class="flex items-center">
+                  <input class="mr-2" type="checkbox" name="{{ role.id }}" id="{{ role.id }}"
+                    [(ngModel)]="selectedRoles[role.id]" (change)="handleRoleSelectionChange(role.id)">
+                  <div class="truncate w-40 text-xs !cursor-default">{{ role.name }}</div>
+                </div>
+                <span (click)="selectRole(role.id)" (click)="compartir2 = true" (click)="compartir1 = false"
+                  class="fa-solid fa-magnifying-glass cursor-pointer text-primary hover:text-[#0C9707] ml-2"></span>
+              </div>
+            </div>
+
+            <div *ngIf="compartir2">
+              <span class="text-xs opacity-50">Rol: {{ selectedRole?.name }}</span>
+
+              <div class="w-full !my-2">
+                <div class="relative">
+                  <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <span class="fa-solid fa-magnifying-glass"></span>
+                  </div>
+                  <input type="text" id="table-search" #search (keyup)="getUsuariosByRolAndTerm(search.value)"
+                    class="input input-sm block h-8 p-2 pl-10 w-full max-w-xs text-sm text-neutral bg-[#ebecf0] !border-[#535A6640] rounded-md border !outline-[#535A6620]"
+                    placeholder="Buscar">
+                </div>
+              </div>
+
+              <div *ngFor="let user of users"
+                class="bg-white hover:bg-[#1b4b2d20] bg-opacity-10 px-3 py-2 flex items-center justify-between">
+                <div class="flex items-center">
+                  <input class="mr-2" type="checkbox" name="{{ user.id }}" id="{{ user.id }}"
+                    [checked]="isChecked(user.id)" (change)="handleSelectionChange(user.id)">
+                  <div class="truncate w-40 text-xs !cursor-default">{{ user.person | FullNameFirstMiddle }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full flex items-center justify-between border-t">
+              <div class="flex items-center">
+                <span *ngIf="selectedUsers.length" class="text-xs opacity-50">{{selectedUsers.length}} usuarios
+                  seleccionados</span>
+              </div>
+              <button (click)="compartirOficio()" (click)="compartir = false" [disabled]="!selectedUsers.length"
+                [ngClass]="{ '!text-white !bg-neutral opacity-80': !selectedUsers.length }" type="button"
+                class="btn btn-xs btn-primary text-xs capitalize rounded-md border-0 my-2">
+                Compartir
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+  <div *ngIf="comentarios"
+    class="absolute left-0 bottom-0 h-full w-[18%] bg-white border-t-[1px] border-r-[1px] border-[#535a6650] shadow-lg">
+    <div class="flex justify-between items-center text-primary p-4 font-light">
+      <h1 class="uppercase">Comentarios <span *ngIf="currentOficio.comments">({{currentOficio.comments.length}})</span>
+      </h1>
+      <div (click)="comentarios = false"
+        class="h-5 w-5 flex justify-center items-center hover:bg-[#535a6620] rounded-sm cursor-pointer">
+        <span class="las la-times text-lg"></span>
+      </div>
+    </div>
+
+    <div *ngIf="!nuevoComentario" class="w-full flex justify-end px-4">
+      <button type="button" (click)="nuevoComentario = true"
+        class="btn btn-xs btn-primary text-xs capitalize rounded-md border-0 flex items-center justify-center gap-1">
+        Nuevo
+        <span class="fa-solid fa-plus"></span>
+      </button>
+    </div>
+
+    <div *ngIf="nuevoComentario" class="bg-neutral-content bg-opacity-50">
+      <mat-divider></mat-divider>
+
+      <article class="p-4 m-4 text-base bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden relative">
+
+        <div (click)="nuevoComentario = false"
+          class="h-5 w-5 flex justify-center items-center hover:bg-[#535a6620] rounded-sm cursor-pointer absolute top-1 right-1">
+          <span class="las la-times text-lg"></span>
+        </div>
+
+        <footer class="flex justify-between items-center mb-2">
+          <div class="flex items-center w-full">
+            <div tabindex="0" class="avatar py-1 mr-2">
+              <div class="w-8 mask mask-squircle">
+                <div class="inline-flex overflow-hidden relative justify-center items-center w-8 h-8 bg-neutral">
+                  <span class="font-medium text-sm text-white uppercase">{{currentUser |
+                    NameInitials}}</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="font-medium text-sm text-gray-900 !m-0">
+                {{currentUser | FullNameFirstMiddle}}
+              </p>
+            </div>
+          </div>
+        </footer>
+
+        <form [formGroup]="formGroup" (ngSubmit)="send()">
+          <div class="bg-white rounded-lg border border-gray-200 flex justify-between">
+
+            <textarea class="bg-white p-2 resize-none text-gray-500 text-sm outline-none appearance-none rounded-lg"
+              matInput formControlName="comment" [errorStateMatcher]="matcher" autocomplete="off" spellcheck="false"
+              placeholder="Nuevo comentario.">
+            </textarea>
+
+            <button type="submit" [disabled]="!formGroup.get('comment')?.value"
+              [ngClass]="{ '!text-white !bg-neutral opacity-80': !formGroup.get('comment')?.value }"
+              class="flex items-center p-2 text-xs font-medium text-center text-white bg-primary rounded-r-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800">
+              <span class="fa-solid fa-paper-plane"></span>
+            </button>
+
+          </div>
+
+          <mat-error class="text-xs" *ngIf="formGroup.get('comment')?.hasError('maxlength')">
+            Máximo <strong>300</strong> caracteres.
+          </mat-error>
+
+        </form>
+      </article>
+
+      <mat-divider></mat-divider>
+
+    </div>
+
+    <div class="my-4 overflow-y-auto h-[calc(100%-100px)]">
+      <article *ngFor="let comment of currentOficio.comments"
+        class="p-4 m-4 text-base bg-white bg-opacity-20 border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+        <footer class="flex justify-between items-center mb-2">
+          <div class="flex items-center w-full">
+            <div tabindex="0" class="avatar py-1 mr-2">
+              <div class="w-8 mask mask-squircle">
+                <div class="inline-flex overflow-hidden relative justify-center items-center w-8 h-8 bg-neutral">
+                  <span class="font-medium text-sm text-white uppercase">{{comment.created_by.person |
+                    NameInitials}}</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="font-medium text-sm text-gray-900 !m-0">
+                {{comment.created_by.person | FullNameFirstMiddle}}
+              </p>
+              <time class="text-xs text-gray-400">{{comment.created_at | TimeAgo}}</time>
+            </div>
+          </div>
+
+        </footer>
+        <p class="text-gray-500 !text-left">{{comment.comment}}</p>
+        <time class="text-gray-400 text-xs lowercase">{{comment.created_at | date:'medium'}}</time>
+
+      </article>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,92 @@
+<div class="grid grid-cols-1 gap-10">
+  <div class="grid grid-cols-1">
+    <div
+      class="h-[calc(32vh-1rem)] bg-primary row-span-1 shadow-md shadow-green-800  text-white overflow-hidden relative">
+      <h3 class="text-base ml-3 mt-3">
+           Hola <span *ngIf="user">{{ user | FullNameShort }}</span>!
+      </h3>
+
+      <div class="w-full absolute bottom-5 left-0">
+        <div class="w-full flex justify-between items-center p-6">
+          <div>
+            <h2 class="text-xl">Bienvenido aL</h2>
+            <h1 class="text-3xl font-bold">Sistema Administrativo</h1>
+            <h3 class="text-xl">Gad Guayallabamba</h3>
+          </div>
+          <div class="rounded-full h-20 w-20 bg-white flex justify-center items-center overflow-hidden p-1">
+            <img src="/assets/images/favicon.png" alt="logo" />
+          </div>
+        </div>
+
+        <div class="w-full flex">
+          <span class="h-0.5 w-1/2 bg-[#FFDD00]"></span>
+          <span class="h-0.5 w-1/4 bg-[#034EA2]"></span>
+          <span class="h-0.5 w-1/4 bg-[#ED1C24]"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+  <!-- scale -->
+  <div class="flex h-96 mt-3 justify-start mx-8 bg-neutral-800 ">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2  lg:grid-cols-4 ">
+      <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/75 rounded-lg">
+        <div class="h-96 w-72 ">
+          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125" src="/assets/images/plazaGad.jpg" alt="" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+        <div class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+          <h1 class="font-dmserif text-3xl font-bold text-white mb-8">Mis Oficios</h1>
+          <p class="mb-3 text-lg font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">Revisa el estado de los oficios que has enviado</p>
+          <button class="rounded-full bg-lime-800 py-2 px-3.5 font-com text-base capitalize text-white shadow shadow-black/60" [routerLink]="['/system/oficios/list/filter/creados']">Revisar</button>
+        </div>
+      </div>
+      <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/75 rounded-lg">
+        <div class="h-96 w-72">
+          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125" src="/assets/images/zooGad.jpg" alt="" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+        <div class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+          <h1 class="font-dmserif text-3xl font-bold text-white mb-8">Oficios recibidos</h1>
+          <p class="mb-3 text-lg font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">Revisa los Oficios asignados a tu departamento para aprobarlos o rechazarlos</p>
+          <button class="rounded-full bg-lime-800 py-2 px-3.5 font-com text-base capitalize text-white shadow shadow-black/60" [routerLink]="['/system/oficios/list/filter/recibidos']">Verificar</button>
+        </div>
+      </div>
+      <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/75 rounded-lg">
+        <div class="h-96 w-72">
+          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125" src="/assets/images/locro-de-papa.jpg" alt="" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+        <div class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+          <h1 class="font-dmserif text-3xl font-bold text-white mb-8">Crear Oficios </h1>
+          <p class="mb-3 text-lg font-medium  text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">Crea un nuevo Oficio para que sea asignado a la entidad correspondiente </p>
+          <button class="rounded-full bg-lime-800 py-2 px-3.5 font-com text-base capitalize text-white shadow shadow-black/60" [routerLink]="['/system/oficios/form']">Crear nuevo</button>
+        </div>
+      </div>
+
+      <div class="group relative bg-card max-w-sm rounded-lg overflow-hidden shadow-lg ">
+        <img class="px-6 py-4" src="/assets/images/logolarge.png" alt="logolarge">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">NO olvides que:</div>
+          <p class="text-white text-base">
+            1.-Los Oficios se envian con tu nombre, rol y la fecha exacta en la que lo creaste 
+          </p>
+          <p class="text-white text-base mt-2">
+            2.-Tendras que esperar que tu oficio sea asignado a una entidad para que sea aprobado 
+          </p>
+          <p class="text-white text-base mt-2">
+            3.-Recuerda ser claro al escribir el asunto y descripción de un oficio 
+          </p>
+        </div>
+
+    </div>
+
+
+    </div>
+
+  </div>
+
